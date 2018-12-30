@@ -1,5 +1,6 @@
 stages:
   - package
+  - deploy
 
 package:
   stage: package
@@ -14,5 +15,16 @@ package:
     name: "frontend-$CI_COMMIT_TAG"
     paths:
       - dist/frontend.zip
+      - deploy.sh
   tags:
     - docker
+    
+deploy:
+  stage: deploy
+  script:
+    - chmod 774 deploy.sh
+    - ./deploy.sh
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - blue-green
