@@ -1,6 +1,7 @@
 stages:
   - package
   - deploy
+  - swap
 
 package:
   stage: package
@@ -12,7 +13,7 @@ package:
     - cd dist
     - zip frontend.zip ./*
   artifacts:
-    name: "frontend-$CI_COMMIT_TAG"
+    name: "frontend"
     paths:
       - dist/frontend.zip
       - deploy.sh
@@ -26,5 +27,17 @@ deploy:
     - ./deploy.sh
   variables:
     GIT_STRATEGY: none
+  tags:
+    - blue-green
+    
+swap:
+  stage: swap
+  script:
+    - DEPLOYMENT_ENV=$(curl -s https://staging.notkimsereylam.xyz/deployment_id)
+    - ssh notkl "sudo ln -s /etc/nginx/sites-available/$DEPLOYMENT_ENV /etc/nginx/sites-enabled/upstreams"
+    - ssh notkl "sudo systemctl reload nginx"
+  variables:
+    GIT_STRATEGY: none
+  when: manual
   tags:
     - blue-green
