@@ -3,7 +3,9 @@ stages:
 
 package:
   stage: package
+  image: alpine:latest
   script:
+    - apk add --update zip
     - cd src/frontend
     - zip frontend.zip ./*
   artifacts:
@@ -11,4 +13,4 @@ package:
     paths:
       - frontend.zip
   tags:
-    - linux
+    - docker
