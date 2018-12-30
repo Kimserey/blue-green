@@ -1,0 +1,14 @@
+stages:
+  - package
+
+package:
+  stage: package
+  script:
+    - cd src/frontend
+    - zip frontend.zip ./*
+  artifacts:
+    name: "frontend-$CI_COMMIT_TAG"
+    paths:
+      - frontend.zip
+  tags:
+    - linux
