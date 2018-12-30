@@ -32,6 +32,9 @@ deploy:
     - ssh notkl "rm -rf ~/frontend*"
   variables:
     GIT_STRATEGY: none
+  environment:
+    name: staging
+    url: https://staging.notkimsereylam.xyz 
   tags:
     - blue-green
     
@@ -44,5 +47,8 @@ swap:
   variables:
     GIT_STRATEGY: none
   when: manual
+  environment:
+    name: live
+    url: https://notkimsereylam.xyz
   tags:
     - blue-green
