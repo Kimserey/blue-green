@@ -23,8 +23,13 @@ package:
 deploy:
   stage: deploy
   script:
-    - chmod 774 deploy.sh
-    - ./deploy.sh
+    - DEPLOYMENT_ENV=$(curl -s https://staging.notkimsereylam.xyz/deployment_id)
+    - cd dist
+    - scp -qr ./frontend.zip notkl:~
+    - ssh notkl "unzip -o frontend.zip -d frontend"
+    - ssh notkl "sudo rm -rf /var/www/$DEPLOYMENT_ENV/frontend/*"
+    - ssh notkl "sudo mv ~/frontend/* /var/www/$DEPLOYMENT_ENV/frontend"
+    - ssh notkl "rm -rf ~/frontend*"
   variables:
     GIT_STRATEGY: none
   tags:
@@ -34,7 +39,7 @@ swap:
   stage: swap
   script:
     - DEPLOYMENT_ENV=$(curl -s https://staging.notkimsereylam.xyz/deployment_id)
-    - ssh notkl "sudo ln -s /etc/nginx/sites-available/$DEPLOYMENT_ENV /etc/nginx/sites-enabled/upstreams"
+    - ssh notkl "sudo ln -sf /etc/nginx/sites-available/$DEPLOYMENT_ENV /etc/nginx/sites-enabled/upstreams"
     - ssh notkl "sudo systemctl reload nginx"
   variables:
     GIT_STRATEGY: none
