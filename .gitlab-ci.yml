@@ -3,7 +3,23 @@ stages:
   - deploy
   - swap
 
-package:
+  
+package_backend:
+  stage: package
+  image: microsoft/dotnet:2.2-sdk-alpine
+  script:
+    - apk add --update zip
+    - dotnet publish $CI_PROJECT_DIR/src/backend/Backend.csproj -o $CI_PROJECT_DIR/dist
+    - cd dist
+    - zip backend.zip ./*
+  artifacts:
+    name: backend
+    paths:
+      - dist/backend.zip
+  tags:
+    - docker
+
+package_frontend:
   stage: package
   image: alpine:latest
   script:
@@ -13,10 +29,9 @@ package:
     - cd dist
     - zip frontend.zip ./*
   artifacts:
-    name: "frontend"
+    name: frontend
     paths:
       - dist/frontend.zip
-      - deploy.sh
   tags:
     - docker
     
