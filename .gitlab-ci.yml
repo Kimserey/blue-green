@@ -70,6 +70,7 @@ swap:
     - DEPLOYMENT_ENV=$(curl -s https://staging.notkimsereylam.xyz/deployment_id)
     - ssh notkl "sudo ln -sf /etc/nginx/sites-available/$DEPLOYMENT_ENV /etc/nginx/sites-enabled/upstreams"
     - ssh notkl "sudo systemctl reload nginx"
+  dependencies: []
   variables:
     GIT_STRATEGY: none
   when: manual
