@@ -12,7 +12,7 @@ namespace Backend
     {
         public ActionResult<string[]> Get()
         {
-            return new[] { "Value 1", "Value 2", "Value 3" };
+            return new[] { "Some new value" };
         }
     }
 }
