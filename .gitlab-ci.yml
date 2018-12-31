@@ -53,7 +53,7 @@ deploy:
     - ssh notkl "unzip -o ~/backend.zip -d ~/backend"
     - ssh notkl "sudo rm -rf /var/www/$DEPLOYMENT_ENV/backend/*"
     - ssh notkl "sudo mv ~/backend/* /var/www/$DEPLOYMENT_ENV/backend"
-    - ssh notkl "rm -rf ~/frontend*"
+    - ssh notkl "rm -rf ~/backend*"
     - ssh notkl "sudo systemctl restart backend-$DEPLOYMENT_ENV"
   
   variables:
