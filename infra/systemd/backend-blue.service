@@ -1,0 +1,12 @@
+[Unit]                          
+Description=Backend Blue
+                                         
+[Service]           
+WorkingDirectory=/var/www/blue/backend/
+ExecStart=/usr/bin/dotnet Backend.dll
+SyslogIdentifier=backend-blue 
+Environment=ASPNETCORE_URLS=http://localhost:5000
+User=www-data
+                                         
+[Install]
+WantedBy=multi-user.target

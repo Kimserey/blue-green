@@ -1,0 +1,18 @@
+server {
+	listen	80 default_server;
+	listen	[::]:80 default_server;
+	server_name notkimsereylam.xyz www.notkimsereylam.xyz;
+	
+	root /var/www/html;	
+	index index.html;
+
+	include snippets/proxy.conf;
+
+	location /api {
+		proxy_pass http://backend;
+	}
+
+	location / {
+		proxy_pass http://frontend;
+	}
+}

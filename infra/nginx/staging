@@ -1,0 +1,15 @@
+server {                                        
+        listen	80;
+	listen	[::]:80;                              
+        server_name staging.notkimsereylam.xyz;                     
+                                                
+	include snippets/proxy.conf;
+
+	location /api {
+		proxy_pass http://backend_staging;
+	}
+
+	location / {
+		proxy_pass http://frontend_staging;
+	}
+}
