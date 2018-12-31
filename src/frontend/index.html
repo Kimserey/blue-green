@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Welcome to nginx!</title>
+	<title>Blue-Green deployment test</title>
 	<style>
 		body {
 			width: 35em;
@@ -9,11 +9,27 @@
 			font-family: Tahoma, Verdana, Arial, sans-serif;                                                     
         }
 	</style>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 </head>
 <body>
-	<h1>Welcome to nginx!</h1>
-	<p style="background-color: bisque">If you see this page, the nginx web server is successfully installed and working. Further configuration is required.</p>
-    <p>For online documentation and support please refer to <a href="http://nginx.org/">nginx.org</a>.<br/> Commercial support is available at <a href="http://nginx.com/">nginx.com</a>.</p>
-    <p><em>Thank you for using nginx.</em></p>
+	<h1>Welcome to this Blue-Green deployment setup testing!</h1>
+	<div>
+		<button>Click Here</button> to query the backend!
+		<div class="values"></div>
+	</div>
+
+	<script>
+		$("button").click(function(e) {
+			e.preventDefault();
+
+			$.ajax({
+				type: "GET",
+				url: "/api/values/",
+				success: function(values) {
+					$(".values").replaceWith(values);
+				}
+			});
+		});
+	</script>
 </body>
 </html>                                                                                                      
