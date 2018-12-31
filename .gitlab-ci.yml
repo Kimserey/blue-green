@@ -40,11 +40,22 @@ deploy:
   script:
     - DEPLOYMENT_ENV=$(curl -s https://staging.notkimsereylam.xyz/deployment_id)
     - cd dist
+    
+    # Deploy frontend to staging
     - scp -qr ./frontend.zip notkl:~
     - ssh notkl "unzip -o ~/frontend.zip -d ~/frontend"
     - ssh notkl "sudo rm -rf /var/www/$DEPLOYMENT_ENV/frontend/*"
     - ssh notkl "sudo mv ~/frontend/* /var/www/$DEPLOYMENT_ENV/frontend"
     - ssh notkl "rm -rf ~/frontend*"
+    
+    # Deploy backend to staging
+    - scp -qr ./backend.zip notkl:~
+    - ssh notkl "unzip -o ~/backend.zip -d ~/backend"
+    - ssh notkl "sudo rm -rf /var/www/$DEPLOYMENT_ENV/backend/*"
+    - ssh notkl "sudo mv ~/backend/* /var/www/$DEPLOYMENT_ENV/backend"
+    - ssh notkl "rm -rf ~/frontend*"
+    - ssh notkl "sudo systemctl restart backend-$DEPLOYMENT_ENV"
+  
   variables:
     GIT_STRATEGY: none
   environment:
